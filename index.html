@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anuroop Jajoba — Software Engineer</title>
+<meta name="description" content="Anuroop Jajoba — software engineer focused on backend systems, distributed systems, and agentic AI. Building @PaySplit. MS Information Technology, University of New Hampshire." />
+<meta name="author" content="Anuroop Jajoba" />
+<meta name="theme-color" content="#0a0a0a" />
+<meta property="og:title" content="Anuroop Jajoba" />
+<meta property="og:description" content="Software engineer building production backend systems and agentic AI." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        colors: {
+          base: '#0a0a0a',
+          ink: '#ececea',
+          mute: '#8f8d88',
+          line: 'rgba(255,255,255,0.08)',
+        },
+      },
+    },
+  };
+</script>
+
+<!-- ============================================================
+     PROJECT DATA — to add a project, append an object here.
+     Nothing else in the file needs to change.
+     ============================================================ -->
+<script>
+const FEATURED_PROJECTS = [
+  {
+    title: "ClinicalMind",
+    meta: "Flagship · Live",
+    description: "AI-powered clinical evidence synthesis. A 5-agent LangGraph pipeline searches PubMed and ClinicalTrials.gov, extracts PICO, detects contradictions, and generates structured clinical reports with evidence levels — reducing research that took days to 60 seconds across 35M+ records.",
+    tags: ["Python", "FastAPI", "LangGraph", "React", "PostgreSQL", "Redis", "AWS Lambda"],
+    github: "https://github.com/anuroopjajoba3/clinical-mind",
+    live: "https://clinical-mind-eight.vercel.app",
+  },
+  {
+    title: "PaySplit",
+    meta: "Co-founder · LLC, 2026",
+    description: "Fintech platform for payment splitting and expense management. Java Spring Boot and Python FastAPI microservices on AWS ECS with Kafka event streaming and Redis caching. Stripe and Plaid integrations, currently in sandbox ahead of launch.",
+    tags: ["Java", "Spring Boot", "FastAPI", "Kafka", "Redis", "AWS ECS", "Stripe"],
+    github: "https://github.com/anuroopjajoba3/paysplit-backend",
+    live: "https://www.paysplit.in",
+  },
+  {
+    title: "CodeReview.AI",
+    meta: "Used by 7 developers",
+    description: "AI-powered code review tool that analyzes git diffs and catches bugs, security issues, and improvements using the Claude API. Python FastAPI backend on AWS with a TypeScript VS Code extension, GitHub Actions CI/CD, and full pytest coverage.",
+    tags: ["Python", "FastAPI", "TypeScript", "Claude API", "AWS", "VS Code Extension"],
+    github: "https://github.com/anuroopjajoba3/codereview.ai",
+    live: null,
+  },
+  {
+    title: "LLM Failure Atlas",
+    meta: "AI research",
+    description: "An adversarial benchmark for frontier LLMs — 30 coding tasks designed to expose failure modes, with 7 documented failures across 5 behavioral patterns in Claude Opus. Built to understand where and why frontier models break.",
+    tags: ["Python", "LLM Evals", "Benchmarking", "Claude"],
+    github: "https://github.com/anuroopjajoba3/llm-failure-atlas",
+    live: null,
+  },
+  {
+    title: "Wildcatcher",
+    meta: "UNH Research · 91.6% F1",
+    description: "AI syllabus compliance checker for NECHE accreditation, built as university research. 19 field detectors and a ChromaDB RAG pipeline with a hybrid pattern-matching + LLM approach — scoring 91.6% F1 across 161 real syllabus documents. Deployed via Jenkins CI/CD.",
+    tags: ["Python", "Flask", "ChromaDB", "RAG", "Gemini", "Docker", "Jenkins"],
+    github: "https://github.com/anuroopjajoba3/WILDCATCHER-SYLLABUS-CHECKER",
+    live: null,
+  },
+  {
+    title: "Payment Tracker API",
+    meta: "Backend engineering",
+    description: "Secure B2B payment tracking REST API built with Java 17 and Spring Boot — PostgreSQL schema design, JWT authentication, GraphQL support, full JUnit 5 and Mockito coverage, and Docker deployment on AWS EC2 with automated CI/CD.",
+    tags: ["Java 17", "Spring Boot", "PostgreSQL", "GraphQL", "JWT", "Docker"],
+    github: "https://github.com/anuroopjajoba3/payment-tracker",
+    live: null,
+  },
+];
+
+const MORE_PROJECTS = [
+  {
+    title: "Recommendation Engine",
+    description: "Real-time product recommendations using Neural Collaborative Filtering, trained on Amazon reviews.",
+    tags: ["Python", "PyTorch", "NCF"],
+    github: "https://github.com/anuroopjajoba3/recommendation-engine",
+    live: null,
+  },
+  {
+    title: "Poise",
+    description: "Real-time AI fitness coaching iOS app with on-device pose analysis.",
+    tags: ["Swift", "CoreML", "Vision", "PyTorch"],
+    github: "https://github.com/anuroopjajoba3/poise",
+    live: null,
+  },
+  {
+    title: "Campus Parking Predictor",
+    description: "Full-stack ML platform predicting lot fullness and search times with live availability analytics.",
+    tags: ["Python", "ML", "Full-Stack"],
+    github: "https://github.com/anuroopjajoba3/campus-parking-predictor",
+    live: null,
+  },
+  {
+    title: "RL CartPole",
+    description: "Q-learning agent on CartPole-v1 — random baseline vs. learned policy across 300 episodes.",
+    tags: ["Python", "Reinforcement Learning"],
+    github: "https://github.com/anuroopjajoba3/rl-cartpole",
+    live: null,
+  },
+  {
+    title: "Forge Fitness",
+    description: "Fitness web application deployed on Vercel.",
+    tags: ["TypeScript", "Next.js"],
+    github: "https://github.com/anuroopjajoba3/forge-fitness",
+    live: "https://forge-fitness-sigma.vercel.app",
+  },
+];
+</script>
+
+<style>
+  ::selection { background: #ececea; color: #0a0a0a; }
+  html { background: #0a0a0a; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  /* film grain */
+  .grain::before {
+    content: ""; position: fixed; inset: -50%; z-index: 50; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.035; animation: grain 9s steps(10) infinite;
+  }
+  @keyframes grain {
+    0%,100% { transform: translate(0,0) } 20% { transform: translate(-3%,2%) }
+    40% { transform: translate(2%,-3%) } 60% { transform: translate(-2%,-2%) } 80% { transform: translate(3%,3%) }
+  }
+
+  /* hero entrance */
+  .rise { opacity: 0; transform: translateY(28px); animation: rise 1s cubic-bezier(.21,.6,.35,1) forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.21,.6,.35,1), transform .9s cubic-bezier(.21,.6,.35,1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* underline-on-hover links */
+  .ulink { position: relative; }
+  .ulink::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: right;
+    transition: transform .45s cubic-bezier(.65,0,.35,1);
+  }
+  .ulink:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* project row hover */
+  .proj { transition: background-color .5s ease; }
+  .proj .proj-arrow { opacity: 0; transform: translateX(-8px); transition: all .5s cubic-bezier(.21,.6,.35,1); }
+  .proj:hover .proj-arrow { opacity: 1; transform: translateX(0); }
+  .proj:hover .proj-title { font-style: italic; }
+  .proj-title { transition: color .4s ease; }
+
+  /* availability dot */
+  .pulse-dot { position: relative; }
+  .pulse-dot::after {
+    content: ""; position: absolute; inset: 0; border-radius: 9999px;
+    background: #34d399; animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite;
+  }
+  @keyframes ping { 0% { transform: scale(1); opacity: .6 } 75%,100% { transform: scale(2.8); opacity: 0 } }
+
+  /* hero masked line reveal (padding guards descenders of j/p) */
+  .mask { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+  .mask > span { display: block; transform: translateY(115%); animation: maskUp 1.2s cubic-bezier(.16,1,.3,1) forwards; }
+  @keyframes maskUp { to { transform: translateY(0); } }
+
+  /* custom cursor */
+  @media (pointer: fine) {
+    .no-cursor, .no-cursor * { cursor: none !important; }
+    .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; z-index: 90; pointer-events: none; border-radius: 9999px; }
+    .cursor-dot { width: 6px; height: 6px; background: #ececea; margin: -3px 0 0 -3px; }
+    .cursor-ring { width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1px solid rgba(236,236,234,.3);
+      transition: width .35s ease, height .35s ease, margin .35s ease, border-color .35s ease, background-color .35s ease; }
+    .cursor-ring.is-hover { width: 60px; height: 60px; margin: -30px 0 0 -30px;
+      border-color: rgba(236,236,234,.6); background: rgba(236,236,234,.05); }
+  }
+
+  /* magnetic elements */
+  .magnetic { display: inline-block; will-change: transform; }
+
+  /* marquee */
+  .marquee { display: flex; overflow: hidden; user-select: none; }
+  .marquee-track { display: flex; flex-shrink: 0; min-width: 100%; align-items: baseline;
+    animation: marquee 30s linear infinite; }
+  @keyframes marquee { to { transform: translateX(-100%); } }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+
+  /* cursor-following spotlight on project rows */
+  .proj { position: relative; }
+  .proj::before { content: ""; position: absolute; inset: 0; opacity: 0; pointer-events: none;
+    transition: opacity .5s ease;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.05), transparent 60%); }
+  .proj:hover::before { opacity: 1; }
+
+  /* scroll progress */
+  #progress { position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 70;
+    background: linear-gradient(90deg, rgba(236,236,234,.9), rgba(236,236,234,.25)); }
+
+  /* progress runner — jogs along the bar, rests when you stop scrolling */
+  #progressRunner { transition: opacity .4s ease; }
+  #progressRunner .bob, #progressRunner .arm-f, #progressRunner .arm-b,
+  #progressRunner .leg-f, #progressRunner .leg-b { animation-play-state: paused; }
+  body.is-scrolling #progressRunner .bob, body.is-scrolling #progressRunner .arm-f,
+  body.is-scrolling #progressRunner .arm-b, body.is-scrolling #progressRunner .leg-f,
+  body.is-scrolling #progressRunner .leg-b { animation-play-state: running; }
+
+  /* stacking project cards */
+  .proj { transform-origin: top center; }
+  .proj.in-view { transition: opacity .35s ease, transform .35s ease; }
+
+  /* tag chips */
+  .chip { transition: border-color .4s ease, color .4s ease, transform .4s ease; }
+  .proj:hover .chip { border-color: rgba(255,255,255,.18); }
+  .chip:hover { color: #ececea; transform: translateY(-2px); }
+
+  /* ============ hero life-scene illustration ============ */
+  #lifeScene { color: #ececea; }
+  .scene { opacity: 0; animation: sceneCycle 18s infinite; }
+  .scene-b { animation-delay: 6s; }
+  .scene-c { animation-delay: 12s; }
+  @keyframes sceneCycle {
+    0% { opacity: 0; } 3% { opacity: 1; } 30% { opacity: 1; } 35% { opacity: 0; } 100% { opacity: 0; }
+  }
+  .codeline { opacity: 0; animation: codeline 2.8s infinite; }
+  @keyframes codeline { 0% { opacity: 0 } 12%, 62% { opacity: .9 } 74%, 100% { opacity: 0 } }
+  .type-hands { animation: typebob .32s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: top left; }
+  @keyframes typebob { to { transform: rotate(3.5deg); } }
+  .steam { animation: steam 2.4s ease-out infinite; }
+  @keyframes steam { 0% { transform: translateY(0); opacity: 0 } 30% { opacity: .7 } 100% { transform: translateY(-16px); opacity: 0 } }
+  .think { opacity: 0; animation: think 4.5s infinite; }
+  @keyframes think { 0% { opacity: 0 } 12%, 45% { opacity: .8 } 55%, 100% { opacity: 0 } }
+  .bulb { opacity: 0; animation: bulb 4.5s infinite; }
+  @keyframes bulb { 0%, 50% { opacity: 0 } 60%, 88% { opacity: 1 } 100% { opacity: 0 } }
+  .leg-f, .leg-b, .arm-f, .arm-b { transform-box: fill-box; }
+  .leg-f { animation: legSwing .5s ease-in-out infinite alternate; transform-origin: top center; }
+  .leg-b { animation: legSwing .5s ease-in-out infinite alternate-reverse; transform-origin: top center; }
+  @keyframes legSwing { from { transform: rotate(-30deg) } to { transform: rotate(34deg) } }
+  .arm-f { animation: armSwing .5s ease-in-out infinite alternate-reverse; transform-origin: top center; }
+  .arm-b { animation: armSwing .5s ease-in-out infinite alternate; transform-origin: top center; }
+  @keyframes armSwing { from { transform: rotate(-26deg) } to { transform: rotate(26deg) } }
+  .bob { animation: bob .5s ease-in-out infinite alternate; }
+  @keyframes bob { to { transform: translateY(-4px) } }
+  .wheel, .crank { transform-box: fill-box; transform-origin: center; animation: spin 1.3s linear infinite; }
+  .crank { animation-duration: .9s; }
+  @keyframes spin { to { transform: rotate(360deg) } }
+  .ride-legs { animation: pedalWobble .45s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: top center; }
+  @keyframes pedalWobble { from { transform: rotate(-4deg) } to { transform: rotate(5deg) } }
+  .dashline { stroke-dasharray: 14 18; animation: dashmove .9s linear infinite; }
+  @keyframes dashmove { to { stroke-dashoffset: -32 } }
+  .speed { animation: speed .7s linear infinite; }
+  .speed.s2 { animation-delay: .2s } .speed.s3 { animation-delay: .45s }
+  @keyframes speed { 0% { transform: translateX(0); opacity: .55 } 100% { transform: translateX(-46px); opacity: 0 } }
+  .blink { animation: blink 1.1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0 } }
+
+  /* ============ section animations (landing theme) ============ */
+  /* masked heading reveal on scroll — same motion as the hero name */
+  .mask-s { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+  .mask-s > span { display: block; transform: translateY(115%); transition: transform 1.1s cubic-bezier(.16,1,.3,1) .1s; }
+  .reveal.in-view .mask-s > span { transform: translateY(0); }
+
+  /* section rules draw across when they enter */
+  .rule-draw { position: relative; }
+  .rule-draw.rule-b { border-bottom-color: transparent !important; }
+  .rule-draw.rule-t { border-top-color: transparent !important; }
+  .rule-draw::after { content: ""; position: absolute; left: 0; height: 1px; width: 100%;
+    background: rgba(255,255,255,0.08); transform: scaleX(0); transform-origin: left;
+    transition: transform 1.3s cubic-bezier(.65,0,.35,1) .1s; }
+  .rule-draw.rule-b::after { bottom: -1px; }
+  .rule-draw.rule-t::after { top: -1px; }
+  .rule-draw.in-view::after { transform: scaleX(1); }
+
+  /* line-art sketches draw themselves in (same hand as the intro scenes) */
+  .sketch .draw { stroke-dasharray: 600; stroke-dashoffset: 600;
+    transition: stroke-dashoffset 1.8s cubic-bezier(.65,0,.35,1) .35s; }
+  .reveal.in-view .sketch .draw { stroke-dashoffset: 0; }
+
+  /* ============ intro landing overlay ============ */
+  #intro { position: fixed; inset: 0; z-index: 80; background: #0a0a0a;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.25rem; cursor: pointer; transition: opacity .7s ease; }
+  #intro.done { opacity: 0; pointer-events: none; }
+  body.intro-active { overflow: hidden; }
+  /* hold the page entrance until the visitor enters */
+  body.intro-active .rise, body.intro-active .mask > span { animation-play-state: paused; }
+  /* cycle all three scenes quickly during the intro */
+  body.intro-active .scene { animation-duration: 7.5s; }
+  body.intro-active .scene-b { animation-delay: 2.5s; }
+  body.intro-active .scene-c { animation-delay: 5s; }
+</style>
+</head>
+
+<body class="intro-active grain bg-base text-ink font-sans antialiased">
+
+<!-- ============ INTRO LANDING ============ -->
+<div id="intro" aria-label="Enter site">
+  <div id="introStage" class="w-[min(78vw,560px)]">
+      <svg id="lifeScene" viewBox="0 0 420 320" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full max-w-[440px] mx-auto">
+
+        <!-- ===== SCENE A · deep in code ===== -->
+        <g class="scene scene-a">
+          <!-- desk -->
+          <path d="M70 232 H350 M90 232 V292 M330 232 V292" />
+          <!-- stool -->
+          <path d="M118 250 H168 M143 250 V292" />
+          <!-- person -->
+          <circle cx="145" cy="152" r="13" />
+          <path d="M145 165 L138 248" />
+          <path d="M138 248 L176 252 L172 290" />
+          <!-- typing arm -->
+          <g class="type-hands">
+            <path d="M146 176 C160 192 176 216 198 227" />
+          </g>
+          <!-- laptop -->
+          <path d="M205 176 L258 176 L264 228 L211 228 Z M264 228 L292 232" />
+          <line class="codeline" x1="216" y1="190" x2="246" y2="190" style="animation-delay:0s" stroke-width="2" />
+          <line class="codeline" x1="218" y1="199" x2="238" y2="199" style="animation-delay:.4s" stroke-width="2" />
+          <line class="codeline" x1="219" y1="208" x2="250" y2="208" style="animation-delay:.8s" stroke-width="2" />
+          <line class="codeline" x1="221" y1="217" x2="240" y2="217" style="animation-delay:1.2s" stroke-width="2" />
+          <!-- coffee + steam -->
+          <path d="M308 218 h18 v14 h-18 Z M326 221 q8 3 0 8" />
+          <path class="steam" d="M317 210 c-3 -5 3 -8 0 -13" />
+          <!-- thinking → idea -->
+          <circle class="think" cx="163" cy="130" r="2" style="animation-delay:0s" />
+          <circle class="think" cx="173" cy="120" r="2.5" style="animation-delay:.5s" />
+          <circle class="think" cx="184" cy="109" r="3" style="animation-delay:1s" />
+          <g class="bulb">
+            <circle cx="199" cy="93" r="8" />
+            <path d="M195 103 h8 M199 78 v-6 M212 80 l4 -4 M186 80 l-4 -4 M214 93 h6 M178 93 h6" stroke-width="2" />
+          </g>
+        </g>
+
+        <!-- ===== SCENE B · on a run ===== -->
+        <g class="scene scene-b">
+          <line class="dashline" x1="60" y1="262" x2="360" y2="262" />
+          <g class="bob">
+            <circle cx="207" cy="120" r="13" />
+            <path d="M204 133 L188 182" />
+            <g class="arm-f"><path d="M201 142 L222 164 L240 152" /></g>
+            <g class="arm-b"><path d="M201 142 L181 166 L168 153" /></g>
+            <g class="leg-f"><path d="M188 182 L213 211 L208 246 L221 249" /></g>
+            <g class="leg-b"><path d="M188 182 L164 213 L175 244 L187 246" /></g>
+          </g>
+          <line class="speed" x1="128" y1="138" x2="100" y2="138" opacity=".5" />
+          <line class="speed s2" x1="142" y1="172" x2="110" y2="172" opacity=".5" />
+          <line class="speed s3" x1="130" y1="206" x2="104" y2="206" opacity=".5" />
+        </g>
+
+        <!-- ===== SCENE C · out cycling ===== -->
+        <g class="scene scene-c">
+          <line class="dashline" x1="50" y1="272" x2="370" y2="272" />
+          <!-- wheels -->
+          <g class="wheel">
+            <circle cx="145" cy="232" r="34" />
+            <path d="M111 232 H179 M128 203 L162 261 M128 261 L162 203" stroke-width="1.5" />
+          </g>
+          <g class="wheel">
+            <circle cx="285" cy="232" r="34" />
+            <path d="M251 232 H319 M268 203 L302 261 M268 261 L302 203" stroke-width="1.5" />
+          </g>
+          <!-- frame -->
+          <path d="M145 232 L210 235 L285 232 M210 235 L195 162 M195 162 L262 168 L285 232 M262 168 L262 160 L276 156 M195 162 L188 154 h-12" />
+          <!-- crank -->
+          <g class="crank">
+            <path d="M198 247 L222 223 M198 247 h-10 M222 223 h10" />
+          </g>
+          <!-- rider -->
+          <circle cx="244" cy="110" r="12" />
+          <path d="M197 158 L238 124" />
+          <path d="M236 130 L262 162" />
+          <g class="ride-legs">
+            <path d="M197 160 L206 200 L200 244" />
+            <path d="M197 160 L219 196 L223 226" />
+          </g>
+        </g>
+      </svg>
+  </div>
+  <p class="font-mono text-[12px] text-mute">/ still figuring it out</p>
+  <p class="font-mono text-[11px] text-mute/60 animate-pulse mt-2">[ click anywhere to enter ]</p>
+</div>
+
+<!-- scroll progress -->
+<div id="progress"></div>
+<div id="progressRunner" class="fixed left-0 z-[71] pointer-events-none hidden md:block opacity-0" style="top: 3px;" aria-hidden="true">
+  <svg viewBox="150 95 100 165" width="22" height="36" fill="none" stroke="currentColor"
+       stroke-width="9" stroke-linecap="round" stroke-linejoin="round" class="text-ink/70">
+    <g class="bob">
+      <circle cx="207" cy="120" r="13" />
+      <path d="M204 133 L188 182" />
+      <g class="arm-f"><path d="M201 142 L222 164 L240 152" /></g>
+      <g class="arm-b"><path d="M201 142 L181 166 L168 153" /></g>
+      <g class="leg-f"><path d="M188 182 L213 211 L208 246 L221 249" /></g>
+      <g class="leg-b"><path d="M188 182 L164 213 L175 244 L187 246" /></g>
+    </g>
+  </svg>
+</div>
+
+<!-- ambient gradient (drifts with mouse) -->
+<div id="glow" class="pointer-events-none fixed inset-x-0 top-0 h-[60vh] z-0 will-change-transform"
+     style="background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(255,255,255,0.06), transparent 70%);"></div>
+
+<!-- ============ NAV ============ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-40 transition-all duration-500">
+  <nav class="mx-auto max-w-5xl px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="#" class="font-mono text-[13px] tracking-tight text-ink/90 hover:text-ink transition-colors">anuroop.jajoba</a>
+    <div class="flex items-center gap-6 font-mono text-[12px] text-mute">
+      <a class="ulink magnetic hover:text-ink transition-colors" href="https://github.com/anuroopjajoba3" target="_blank" rel="noopener">github</a>
+      <a class="ulink magnetic hover:text-ink transition-colors" href="https://linkedin.com/in/anuroopjajoba" target="_blank" rel="noopener">linkedin</a>
+      <a class="ulink magnetic hover:text-ink transition-colors" href="./resume.pdf" target="_blank">resume</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main" class="relative z-10 mx-auto max-w-5xl px-6 lg:px-8">
+
+  <!-- ============ HERO ============ -->
+  <section class="min-h-[92vh] grid lg:grid-cols-[1.15fr_1fr] items-center gap-12 pt-28 pb-16">
+    <div class="flex flex-col justify-center">
+    <div class="rise inline-flex items-center gap-2.5 mb-10" style="animation-delay:.05s">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+      <span class="font-mono text-[12px] text-mute tracking-wide">Available for new opportunities</span>
+    </div>
+
+    <div id="heroName" class="will-change-transform">
+      <h1 class="font-serif text-[clamp(3.4rem,9vw,7rem)] leading-[0.97] tracking-tight">
+        <span class="mask"><span style="animation-delay:.15s">Anuroop</span></span>
+        <span class="mask"><span style="animation-delay:.3s">Jajoba<span class="text-mute">.</span></span></span>
+      </h1>
+    </div>
+
+    <p class="rise mt-10 max-w-xl text-[17px] leading-relaxed text-mute" style="animation-delay:.3s">
+      Software engineer building production backend systems and agentic AI.
+      Currently building <a class="ulink text-ink" href="https://www.paysplit.in" target="_blank" rel="noopener">@PaySplit</a>,
+      with an MS in Information Technology from the
+      <a class="ulink text-ink" href="https://www.unh.edu" target="_blank" rel="noopener">University&nbsp;of&nbsp;New&nbsp;Hampshire</a>.
+    </p>
+
+    <a href="#projects" class="rise magnetic group inline-flex items-center gap-3 mt-12 font-mono text-[13px] text-mute hover:text-ink transition-colors w-fit" style="animation-delay:.45s">
+      Selected work
+      <span class="inline-block transition-transform duration-500 group-hover:translate-y-1">↓</span>
+    </a>
+    </div>
+
+    <!-- animated engineer life-scene lands here after the intro -->
+    <div id="sceneWrap" class="hidden lg:block select-none" aria-hidden="true">
+
+      <p class="mt-4 font-mono text-[12px] text-mute text-center">
+        / busy <span id="doing" class="text-ink">shipping</span><span class="blink text-ink">_</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="reveal border-y border-line py-6 overflow-hidden" aria-hidden="true">
+    <div class="marquee" id="marquee">
+      <div class="marquee-track"></div>
+      <div class="marquee-track"></div>
+    </div>
+  </div>
+
+  <!-- ============ STATS ============ -->
+  <section class="py-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div class="reveal">
+        <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="11" data-decimals="0">0</span></p>
+        <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Projects shipped</p>
+      </div>
+      <div class="reveal">
+        <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="40" data-decimals="0">0</span>%</p>
+        <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Query latency cut</p>
+      </div>
+      <div class="reveal">
+        <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="35" data-decimals="0">0</span>M+</p>
+        <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Records processed</p>
+      </div>
+      <div class="reveal">
+        <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="91.6" data-decimals="1">0</span>%</p>
+        <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Best F1 score</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="pt-8 pb-24">
+    <div class="reveal flex items-baseline justify-between border-b border-line pb-6">
+      <h2 class="font-serif text-4xl md:text-5xl">Selected work<span class="text-mute">.</span></h2>
+      <span class="font-mono text-[12px] text-mute scramble" data-text="/ projects">/ projects</span>
+    </div>
+    <div id="featured-list"></div>
+  </section>
+
+  <!-- ============ MORE PROJECTS ============ -->
+  <section id="more" class="pb-28">
+    <div class="reveal flex items-baseline justify-between border-b border-line pb-6 mb-2">
+      <h2 class="font-serif text-3xl md:text-4xl">More experiments<span class="text-mute">.</span></h2>
+      <span class="font-mono text-[12px] text-mute scramble" data-text="/ archive">/ archive</span>
+    </div>
+    <div id="more-grid" class="grid md:grid-cols-2 gap-px bg-line mt-8 border border-line"></div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience" class="pb-28">
+    <div class="reveal flex items-baseline justify-between border-b border-line pb-6">
+      <h2 class="font-serif text-4xl md:text-5xl">Experience<span class="text-mute">.</span></h2>
+      <span class="font-mono text-[12px] text-mute scramble" data-text="/ experience">/ experience</span>
+    </div>
+
+    <div class="divide-y divide-line relative">
+      <!-- moving dashed timeline, same as the road in the intro scenes -->
+      <svg class="hidden lg:block absolute -left-12 top-6 bottom-6 h-[calc(100%-3rem)] text-ink/25" width="2" aria-hidden="true">
+        <line class="dashline" x1="1" y1="0" x2="1" y2="100%" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+        <div class="font-mono text-[12px] text-mute pt-1.5">Mar 2025 — Present</div>
+        <div>
+          <h3 class="text-lg font-medium">Software Engineer &amp; Co-Founder <span class="text-mute font-normal">· PaySplit</span></h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
+            Building production Spring Boot and FastAPI microservices on AWS ECS with Kafka event
+            streaming and Redis caching. Shipped LangGraph multi-agent features with the Claude API
+            to automate financial workflows.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+        <div class="font-mono text-[12px] text-mute pt-1.5">Sep — Dec 2025</div>
+        <div>
+          <h3 class="text-lg font-medium">Research Intern <span class="text-mute font-normal">· University of New Hampshire</span></h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
+            Built a FastAPI backend with a ChromaDB RAG pipeline for syllabus compliance research —
+            91.6% F1 across 161 real documents. Deployed to AWS via Jenkins CI/CD with 100% pipeline uptime.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+        <div class="font-mono text-[12px] text-mute pt-1.5">Aug 2022 — Dec 2023</div>
+        <div>
+          <h3 class="text-lg font-medium">Software Engineer <span class="text-mute font-normal">· Infosys</span></h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
+            Developed Java Spring Boot microservices and REST APIs on AWS and Azure — cut query latency
+            40% across 8+ production services processing 500K+ daily records. Built Python and SQL ETL
+            pipelines handling 100K records a day.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="pb-28">
+    <div class="reveal flex items-baseline justify-between border-b border-line pb-6 mb-10">
+      <h2 class="font-serif text-4xl md:text-5xl">About<span class="text-mute">.</span></h2>
+      <span class="font-mono text-[12px] text-mute scramble" data-text="/ about">/ about</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-[260px_1fr_1fr] gap-12">
+      <div class="reveal">
+        <div class="group relative overflow-hidden border border-line w-full max-w-[260px]">
+          <img src="./headshot.jpg" alt="Anuroop Jajoba — portrait"
+               class="block w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-[1.03]"
+               onerror="this.parentElement.parentElement.style.display='none'" />
+        </div>
+        <p class="mt-4 font-mono text-[11px] text-mute">Anuroop Jajoba · software engineer</p>
+      </div>
+      <div class="reveal space-y-5 text-[15px] leading-relaxed text-mute">
+        <p>
+          I'm a software engineer who cares about the whole system — from PostgreSQL schema design and
+          Kafka event streams to the agent pipelines that sit on top of them.
+        </p>
+        <p>
+          I hold an MS in Information Technology from the University of New Hampshire <span class="text-ink">(Jan 2026)</span>,
+          and before that spent a year and a half shipping production microservices at Infosys.
+          These days I split my time between PaySplit, the fintech startup I co-founded, and
+          independent AI engineering work like adversarial LLM benchmarks.
+        </p>
+        <p class="font-mono text-[12px] pt-2">
+          AWS Cloud Practitioner · Neural Networks &amp; Deep Learning (DeepLearning.AI) · Building AI Agents (IBM)
+        </p>
+      </div>
+
+      <div class="reveal grid grid-cols-2 gap-x-8 gap-y-8 text-[14px]">
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Languages</h4>
+          <p class="leading-relaxed text-ink/80">Java, Python, TypeScript, JavaScript, SQL, Go</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Backend &amp; APIs</h4>
+          <p class="leading-relaxed text-ink/80">Spring Boot, FastAPI, Node.js, REST, GraphQL, Microservices, Kafka</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">AI Engineering</h4>
+          <p class="leading-relaxed text-ink/80">LangGraph, LangChain, Claude API, RAG pipelines, PyTorch, LLM evals</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Cloud &amp; Data</h4>
+          <p class="leading-relaxed text-ink/80">AWS, Azure, Docker, Kubernetes, PostgreSQL, Redis, MongoDB, CI/CD</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="pb-24">
+    <div class="reveal border-t border-line pt-20 pb-8 relative">
+      <!-- paper plane, same line-art hand as the intro scenes -->
+      <svg class="sketch hidden md:block absolute right-0 top-24 w-44 text-ink/80" viewBox="0 0 180 90" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <g class="bob">
+          <path class="draw" d="M38 44 L142 16 L94 58 L80 48 Z M80 48 L84 70 L94 58" />
+        </g>
+        <line class="speed" x1="46" y1="62" x2="18" y2="62" opacity=".5" />
+        <line class="speed s2" x1="58" y1="72" x2="28" y2="72" opacity=".5" />
+        <line class="speed s3" x1="40" y1="52" x2="16" y2="52" opacity=".5" />
+      </svg>
+      <span class="font-mono text-[12px] text-mute scramble" data-text="/ contact">/ contact</span>
+      <h2 class="font-serif text-[clamp(2.6rem,6vw,4.5rem)] leading-tight mt-6">
+        Let's build something<span class="text-mute"> worth shipping.</span>
+      </h2>
+      <a href="mailto:anuroopjajoba28@gmail.com"
+         class="ulink magnetic mt-8 text-lg text-ink">anuroopjajoba28@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative z-10 border-t border-line">
+  <div class="mx-auto max-w-5xl px-6 lg:px-8 h-20 flex items-center justify-between font-mono text-[12px] text-mute">
+    <span>© 2026 Anuroop Jajoba</span>
+    <div class="flex gap-6">
+      <a class="ulink hover:text-ink transition-colors" href="https://github.com/anuroopjajoba3" target="_blank" rel="noopener">github</a>
+      <a class="ulink hover:text-ink transition-colors" href="https://linkedin.com/in/anuroopjajoba" target="_blank" rel="noopener">linkedin</a>
+      <a class="ulink hover:text-ink transition-colors" href="mailto:anuroopjajoba28@gmail.com">email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- render featured projects ---------- */
+const featuredList = document.getElementById('featured-list');
+FEATURED_PROJECTS.forEach((p, i) => {
+  const num = String(i + 1).padStart(2, '0');
+  const links = [
+    `<a href="${p.github}" target="_blank" rel="noopener" class="ulink font-mono text-[12px] text-mute hover:text-ink transition-colors">GitHub</a>`,
+    p.live ? `<a href="${p.live}" target="_blank" rel="noopener" class="ulink font-mono text-[12px] text-ink">Live ↗</a>` : '',
+  ].filter(Boolean).join('<span class="text-mute/40 mx-3">·</span>');
+
+  const el = document.createElement('article');
+  el.className = 'proj reveal md:sticky bg-base border border-line p-7 md:p-10 mb-6 grid md:grid-cols-[180px_1fr] gap-3 md:gap-10 group';
+  el.style.top = `${88 + i * 12}px`;
+  el.innerHTML = `
+    <div class="flex md:flex-col items-baseline md:items-start gap-3 md:gap-2">
+      <span class="font-mono text-[12px] text-mute/60">${num}</span>
+      <span class="font-mono text-[11px] text-mute tracking-wide">${p.meta}</span>
+    </div>
+    <div>
+      <h3 class="proj-title font-serif text-3xl md:text-4xl flex items-center gap-4">
+        ${p.title}<span class="proj-arrow text-mute text-2xl">→</span>
+      </h3>
+      <p class="mt-4 text-[15px] leading-relaxed text-mute max-w-2xl">${p.description}</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        ${p.tags.map(t => `<span class="font-mono text-[11px] text-mute border border-line rounded-full px-3 py-1">${t}</span>`).join('')}
+      </div>
+      <div class="mt-6">${links}</div>
+    </div>`;
+  featuredList.appendChild(el);
+});
+
+/* ---------- stacking effect: earlier cards scale back as the next slides over ---------- */
+if (matchMedia('(min-width: 768px)').matches) {
+  const stackCards = [...featuredList.children];
+  window.addEventListener('scroll', () => {
+    stackCards.forEach((card, i) => {
+      const next = stackCards[i + 1];
+      if (!next) return;
+      const r = card.getBoundingClientRect();
+      const nr = next.getBoundingClientRect();
+      const overlap = Math.min(Math.max((r.bottom + 24 - nr.top) / r.height, 0), 1);
+      if (overlap > 0) {
+        card.style.transform = `scale(${1 - overlap * 0.05})`;
+        card.style.opacity = `${1 - overlap * 0.5}`;
+      } else if (card.classList.contains('in-view')) {
+        card.style.transform = '';
+        card.style.opacity = '';
+      }
+    });
+  }, { passive: true });
+}
+
+/* ---------- render more projects ---------- */
+const moreGrid = document.getElementById('more-grid');
+MORE_PROJECTS.forEach(p => {
+  const a = document.createElement('a');
+  a.href = p.live || p.github;
+  a.target = '_blank'; a.rel = 'noopener';
+  a.className = 'reveal block bg-base p-7 hover:bg-white/[0.03] transition-colors duration-500 group';
+  a.innerHTML = `
+    <div class="flex items-start justify-between gap-4">
+      <h3 class="font-serif text-xl group-hover:italic">${p.title}</h3>
+      <span class="text-mute opacity-0 group-hover:opacity-100 transition-opacity duration-500">↗</span>
+    </div>
+    <p class="mt-3 text-[13.5px] leading-relaxed text-mute">${p.description}</p>
+    <p class="mt-4 font-mono text-[11px] text-mute/70">${p.tags.join(' · ')}</p>`;
+  moreGrid.appendChild(a);
+});
+
+/* ---------- landing-theme section animations ---------- */
+// section headings get the same masked line reveal as the hero name
+document.querySelectorAll('main section h2').forEach(h => {
+  h.innerHTML = `<span class="mask-s"><span>${h.innerHTML}</span></span>`;
+});
+// section rules draw across on entry
+document.querySelectorAll('main section .reveal.border-b').forEach(el => el.classList.add('rule-draw', 'rule-b'));
+document.querySelectorAll('main section .reveal.border-t').forEach(el => el.classList.add('rule-draw', 'rule-t'));
+
+/* ---------- scroll reveal with stagger ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in-view');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = `${(i % 4) * 70}ms`;
+  io.observe(el);
+});
+
+/* ---------- nav blur on scroll ---------- */
+const nav = document.getElementById('nav');
+const onScroll = () => {
+  if (window.scrollY > 24) {
+    nav.style.backgroundColor = 'rgba(10,10,10,0.75)';
+    nav.style.backdropFilter = 'blur(12px)';
+    nav.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+  } else {
+    nav.style.backgroundColor = 'transparent';
+    nav.style.backdropFilter = 'none';
+    nav.style.borderBottom = '1px solid transparent';
+  }
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ================= MOTION ENGINE ================= */
+const reduceMotion = false; // animations always on
+const finePointer = matchMedia('(pointer: fine)').matches;
+
+/* ---------- "busy doing" word cycler ---------- */
+const DOING = ['shipping', 'debugging', 'figuring it out', 'refactoring', 'training models', 'deploying', 'breaking prod (kidding)'];
+const doingEl = document.getElementById('doing');
+if (doingEl) {
+  let di = 0;
+  setInterval(() => {
+    di = (di + 1) % DOING.length;
+    const word = DOING[di];
+    let f = 0;
+    const G = '!<>-_/[]{}=+*^?#';
+    (function tick() {
+      f++;
+      doingEl.textContent = word.split('').map((ch, i) =>
+        ch === ' ' ? ' ' : (f > i * 2 + 6 ? ch : G[Math.floor(Math.random() * G.length)])).join('');
+      if (f < word.length * 2 + 8) requestAnimationFrame(tick);
+      else doingEl.textContent = word;
+    })();
+  }, 2600);
+}
+
+/* ---------- marquee content ---------- */
+const MARQUEE_ITEMS = ['Backend Systems', 'Agentic AI', 'Distributed Systems', 'RAG Pipelines', 'Microservices', 'LLM Evals', 'Event Streaming'];
+document.querySelectorAll('.marquee-track').forEach(track => {
+  track.innerHTML = MARQUEE_ITEMS.map(t =>
+    `<span class="font-serif italic text-2xl md:text-3xl text-mute/80 whitespace-nowrap px-6">${t}</span>
+     <span class="text-mute/30 self-center">·</span>`).join('');
+});
+
+/* ---------- scroll progress bar + runner ---------- */
+const progress = document.getElementById('progress');
+const runner = document.getElementById('progressRunner');
+let scrollStopTimer;
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const p = Math.min(scrollY / max, 1);
+  progress.style.width = `${p * 100}%`;
+  if (runner) {
+    runner.style.transform = `translateX(${Math.max(p * innerWidth - 26, 0)}px)`;
+    runner.style.opacity = p > 0.004 ? 1 : 0;
+  }
+  document.body.classList.add('is-scrolling');
+  clearTimeout(scrollStopTimer);
+  scrollStopTimer = setTimeout(() => document.body.classList.remove('is-scrolling'), 180);
+}, { passive: true });
+
+/* ---------- hero parallax + ambient glow drift ---------- */
+const heroName = document.getElementById('heroName');
+const glow = document.getElementById('glow');
+if (!reduceMotion) {
+  window.addEventListener('scroll', () => {
+    if (scrollY < innerHeight) heroName.style.transform = `translateY(${scrollY * 0.18}px)`;
+  }, { passive: true });
+
+  if (finePointer) {
+    let gx = 0, gy = 0, tx = 0, ty = 0;
+    window.addEventListener('mousemove', e => {
+      tx = (e.clientX / innerWidth - 0.5) * 40;
+      ty = (e.clientY / innerHeight - 0.5) * 20;
+    }, { passive: true });
+    (function driftGlow() {
+      gx += (tx - gx) * 0.04; gy += (ty - gy) * 0.04;
+      glow.style.transform = `translate(${gx}px, ${gy}px)`;
+      requestAnimationFrame(driftGlow);
+    })();
+  }
+}
+
+/* ---------- custom cursor ---------- */
+if (finePointer && !reduceMotion) {
+  document.body.classList.add('no-cursor');
+  const dot = document.createElement('div'); dot.className = 'cursor-dot';
+  const ring = document.createElement('div'); ring.className = 'cursor-ring';
+  document.body.append(dot, ring);
+  let mx = -100, my = -100, rx = -100, ry = -100;
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  (function moveCursor() {
+    dot.style.transform = `translate(${mx}px, ${my}px)`;
+    rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(moveCursor);
+  })();
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button, .proj')) ring.classList.add('is-hover');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a, button, .proj')) ring.classList.remove('is-hover');
+  });
+}
+
+/* ---------- magnetic links ---------- */
+if (finePointer && !reduceMotion) {
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1)';
+      el.style.transform = '';
+      setTimeout(() => { el.style.transition = ''; }, 550);
+    });
+  });
+}
+
+/* ---------- spotlight follows cursor on project rows ---------- */
+if (finePointer) {
+  featuredList.addEventListener('mousemove', e => {
+    const card = e.target.closest('.proj');
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }, { passive: true });
+}
+
+/* ---------- count-up stats ---------- */
+const statIO = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    statIO.unobserve(el);
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimals, 10);
+    if (reduceMotion) { el.textContent = target.toFixed(decimals); return; }
+    const t0 = performance.now(), dur = 1600;
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.stat').forEach(el => statIO.observe(el));
+
+/* ---------- text scramble on section labels ---------- */
+const GLYPHS = '!<>-_\\/[]{}—=+*^?#';
+function scramble(el) {
+  const text = el.dataset.text;
+  let frame = 0;
+  const total = text.length * 4 + 12;
+  (function tick() {
+    frame++;
+    el.textContent = text.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      return frame > i * 4 + 10 ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    }).join('');
+    if (frame < total) requestAnimationFrame(tick);
+    else el.textContent = text;
+  })();
+}
+const scrambleIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      if (!reduceMotion) scramble(e.target);
+      scrambleIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.scramble').forEach(el => scrambleIO.observe(el));
+
+/* ---------- intro landing: click → scene flies to the hero ---------- */
+const intro = document.getElementById('intro');
+const sceneWrap = document.getElementById('sceneWrap');
+const lifeSvg = document.getElementById('lifeScene');
+let entered = false;
+
+function enterSite() {
+  if (entered) return;
+  entered = true;
+
+  const wrapVisible = sceneWrap && getComputedStyle(sceneWrap).display !== 'none';
+
+  if (wrapVisible) {
+    // FLIP: measure where the scene is, move it home, animate the difference
+    const first = lifeSvg.getBoundingClientRect();
+    document.body.classList.remove('intro-active');   // also unpauses hero entrance
+    sceneWrap.prepend(lifeSvg);
+    const last = lifeSvg.getBoundingClientRect();
+    const dx = first.left - last.left;
+    const dy = first.top - last.top;
+    const sc = first.width / last.width;
+    lifeSvg.style.transformOrigin = 'top left';
+    lifeSvg.style.transform = `translate(${dx}px, ${dy}px) scale(${sc})`;
+    lifeSvg.getBoundingClientRect(); // force reflow
+    lifeSvg.style.transition = 'transform 1.1s cubic-bezier(.16,1,.3,1)';
+    lifeSvg.style.transform = '';
+    setTimeout(() => { lifeSvg.style.transition = ''; lifeSvg.style.transformOrigin = ''; }, 1200);
+  } else {
+    document.body.classList.remove('intro-active');
+    if (sceneWrap) sceneWrap.prepend(lifeSvg);
+  }
+
+  intro.classList.add('done');
+  setTimeout(() => intro.remove(), 800);
+  window.removeEventListener('keydown', enterSite);
+}
+
+if (intro) {
+  intro.addEventListener('click', enterSite);
+  window.addEventListener('keydown', enterSite);
+}
+</script>
+</body>
+</html>
