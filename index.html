@@ -955,7 +955,7 @@ if (matchMedia('(min-width: 768px)').matches) {
     camera.position.z = 30;
 
     // shell morphs per section; amber core stays constant — the one thing that doesn't change
-    const shellMat = new THREE.LineBasicMaterial({ color: 0xececea, transparent: true, opacity: 0.13 });
+    const shellMat = new THREE.LineBasicMaterial({ color: 0xececea, transparent: true, opacity: 0.22 });
     const GEOS = {
       ico:   () => new THREE.IcosahedronGeometry(9, 1),
       knot:  () => new THREE.TorusKnotGeometry(6.2, 1.9, 80, 10),
@@ -967,7 +967,7 @@ if (matchMedia('(min-width: 768px)').matches) {
     shell.userData.geo = 'ico';
     const core = new THREE.LineSegments(
       new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2, 0)),
-      new THREE.LineBasicMaterial({ color: 0xffb454, transparent: true, opacity: 0.2 }));
+      new THREE.LineBasicMaterial({ color: 0xffb454, transparent: true, opacity: 0.38 }));
     const group = new THREE.Group();
     group.add(shell, core);
     scene.add(group);
@@ -984,12 +984,12 @@ if (matchMedia('(min-width: 768px)').matches) {
       const top = el => el ? el.getBoundingClientRect().top + scrollY : 0;
       const statsSection = document.querySelector('.stat')?.closest('section');
       STOPS = [
-        { y: 0,                                          geo: 'ico',   x: 6.5,  s: 1,    o: 0.13 },
-        { y: top(statsSection),                          geo: 'ico',   x: 0,    s: 0.6,  o: 0.10 },
-        { y: top(document.getElementById('projects')),   geo: 'knot',  x: -8.5, s: 0.85, o: 0.11 },
-        { y: top(document.getElementById('experience')), geo: 'octa',  x: 8.5,  s: 0.95, o: 0.12 },
-        { y: top(document.getElementById('about')),      geo: 'dodec', x: -8.5, s: 0.9,  o: 0.12 },
-        { y: top(document.getElementById('contact')),    geo: 'ico0',  x: 0,    s: 1.15, o: 0.16 },
+        { y: 0,                                          geo: 'ico',   x: 6.5,  s: 1,    o: 0.22 },
+        { y: top(statsSection),                          geo: 'ico',   x: 0,    s: 0.6,  o: 0.16 },
+        { y: top(document.getElementById('projects')),   geo: 'knot',  x: -8.5, s: 0.85, o: 0.18 },
+        { y: top(document.getElementById('experience')), geo: 'octa',  x: 8.5,  s: 0.95, o: 0.19 },
+        { y: top(document.getElementById('about')),      geo: 'dodec', x: -8.5, s: 0.9,  o: 0.19 },
+        { y: top(document.getElementById('contact')),    geo: 'ico0',  x: 0,    s: 1.15, o: 0.26 },
       ];
     };
     addEventListener('resize', () => { resize(); measure(); });
