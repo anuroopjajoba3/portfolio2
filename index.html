@@ -983,13 +983,19 @@ if (matchMedia('(min-width: 768px)').matches) {
     const measure = () => {
       const top = el => el ? el.getBoundingClientRect().top + scrollY : 0;
       const statsSection = document.querySelector('.stat')?.closest('section');
+      const statsY = top(statsSection);
+      const contactY = top(document.getElementById('contact'));
       STOPS = [
-        { y: 0,                                          geo: 'ico',   x: 6.5,  s: 1,    o: 0.22 },
-        { y: top(statsSection),                          geo: 'ico',   x: 0,    s: 0.6,  o: 0.16 },
+        // hidden on the hero — grows in as the stats arrive
+        { y: 0,                                          geo: 'ico',   x: 0,    s: 0.4,  o: 0 },
+        { y: statsY - innerHeight * 0.55,                geo: 'ico',   x: 0,    s: 0.45, o: 0 },
+        { y: statsY,                                     geo: 'ico',   x: 0,    s: 0.6,  o: 0.16 },
         { y: top(document.getElementById('projects')),   geo: 'knot',  x: -8.5, s: 0.85, o: 0.18 },
         { y: top(document.getElementById('experience')), geo: 'octa',  x: 8.5,  s: 0.95, o: 0.19 },
         { y: top(document.getElementById('about')),      geo: 'dodec', x: -8.5, s: 0.9,  o: 0.19 },
-        { y: top(document.getElementById('contact')),    geo: 'ico0',  x: 0,    s: 1.15, o: 0.26 },
+        // holds through about, then gone before the contact section
+        { y: contactY - innerHeight * 0.6,               geo: 'dodec', x: -8.5, s: 0.9,  o: 0.19 },
+        { y: contactY,                                   geo: 'dodec', x: 0,    s: 0.5,  o: 0 },
       ];
     };
     addEventListener('resize', () => { resize(); measure(); });
@@ -1020,6 +1026,7 @@ if (matchMedia('(min-width: 768px)').matches) {
 
       group.position.x = lerp(a.x, b.x, e);
       shellMat.opacity = lerp(a.o, b.o, e);
+      core.material.opacity = shellMat.opacity * 1.7; // amber core fades with the shell
 
       // morph: shrink, swap geometry at the smallest point, regrow with a spin burst
       const targetGeo = (e > 0.5 ? b : a).geo;
