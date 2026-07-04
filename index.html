@@ -155,9 +155,12 @@ const MORE_PROJECTS = [
   .rise { opacity: 0; transform: translateY(28px); animation: rise 1s cubic-bezier(.21,.6,.35,1) forwards; }
   @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
-  /* scroll reveal */
+  /* scroll reveal — with directional variants so content moves around the 3D object */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.21,.6,.35,1), transform .9s cubic-bezier(.21,.6,.35,1); }
-  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .reveal.from-l { transform: translateX(-48px); }
+  .reveal.from-r { transform: translateX(48px); }
+  .reveal.zoom { transform: scale(.94) translateY(16px); }
+  .reveal.in-view { opacity: 1; transform: none; }
 
   /* underline-on-hover links */
   .ulink { position: relative; }
@@ -489,19 +492,19 @@ const MORE_PROJECTS = [
   <!-- ============ STATS ============ -->
   <section class="py-20">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
-      <div class="reveal">
+      <div class="reveal zoom">
         <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="11" data-decimals="0">0</span></p>
         <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Projects shipped</p>
       </div>
-      <div class="reveal">
+      <div class="reveal zoom">
         <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="40" data-decimals="0">0</span>%</p>
         <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Query latency cut</p>
       </div>
-      <div class="reveal">
+      <div class="reveal zoom">
         <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="35" data-decimals="0">0</span>M+</p>
         <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Records processed</p>
       </div>
-      <div class="reveal">
+      <div class="reveal zoom">
         <p class="font-serif text-5xl md:text-6xl"><span class="stat" data-target="91.6" data-decimals="1">0</span>%</p>
         <p class="mt-3 font-mono text-[11px] text-mute uppercase tracking-widest">Best F1 score</p>
       </div>
@@ -538,7 +541,7 @@ const MORE_PROJECTS = [
       <svg class="hidden lg:block absolute -left-12 top-6 bottom-6 h-[calc(100%-3rem)] text-ink/25" width="2" aria-hidden="true">
         <line class="dashline" x1="1" y1="0" x2="1" y2="100%" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
-      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+      <div class="reveal from-l grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
         <div class="font-mono text-[12px] text-mute pt-1.5">Mar 2025 — Present</div>
         <div>
           <h3 class="text-lg font-medium">Software Engineer &amp; Co-Founder <span class="text-mute font-normal">· PaySplit</span></h3>
@@ -550,7 +553,7 @@ const MORE_PROJECTS = [
         </div>
       </div>
 
-      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+      <div class="reveal from-r grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
         <div class="font-mono text-[12px] text-mute pt-1.5">Sep — Dec 2025</div>
         <div>
           <h3 class="text-lg font-medium">Research Intern <span class="text-mute font-normal">· University of New Hampshire</span></h3>
@@ -561,7 +564,7 @@ const MORE_PROJECTS = [
         </div>
       </div>
 
-      <div class="reveal grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
+      <div class="reveal from-l grid md:grid-cols-[180px_1fr] gap-2 md:gap-10 py-10">
         <div class="font-mono text-[12px] text-mute pt-1.5">Aug 2022 — Dec 2023</div>
         <div>
           <h3 class="text-lg font-medium">Software Engineer <span class="text-mute font-normal">· Infosys</span></h3>
@@ -583,7 +586,7 @@ const MORE_PROJECTS = [
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-[260px_1fr_1fr] gap-12">
-      <div class="reveal">
+      <div class="reveal from-l">
         <div class="group relative overflow-hidden border border-line w-full max-w-[260px]">
           <img src="./headshot.jpg" alt="Anuroop Jajoba — portrait"
                class="block w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-[1.03]"
@@ -607,7 +610,7 @@ const MORE_PROJECTS = [
         </p>
       </div>
 
-      <div class="reveal grid grid-cols-2 gap-x-8 gap-y-8 text-[14px]">
+      <div class="reveal from-r grid grid-cols-2 gap-x-8 gap-y-8 text-[14px]">
         <div>
           <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Languages</h4>
           <p class="leading-relaxed text-ink/80">Java, Python, TypeScript, JavaScript, SQL, Go</p>
@@ -630,7 +633,7 @@ const MORE_PROJECTS = [
 
   <!-- ============ CONTACT ============ -->
   <section id="contact" class="pb-24">
-    <div class="reveal border-t border-line pt-20 pb-8 relative">
+    <div class="reveal zoom border-t border-line pt-20 pb-8 relative">
       <!-- paper plane, same line-art hand as the intro scenes -->
       <svg class="sketch hidden md:block absolute right-0 top-24 w-44 text-ink/80" viewBox="0 0 180 90" fill="none"
            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -717,11 +720,11 @@ if (matchMedia('(min-width: 768px)').matches) {
 
 /* ---------- render more projects ---------- */
 const moreGrid = document.getElementById('more-grid');
-MORE_PROJECTS.forEach(p => {
+MORE_PROJECTS.forEach((p, i) => {
   const a = document.createElement('a');
   a.href = p.live || p.github;
   a.target = '_blank'; a.rel = 'noopener';
-  a.className = 'reveal block bg-base p-7 hover:bg-white/[0.03] transition-colors duration-500 group';
+  a.className = `reveal ${i % 2 ? 'from-r' : 'from-l'} block bg-base p-7 hover:bg-white/[0.03] transition-colors duration-500 group`;
   a.innerHTML = `
     <div class="flex items-start justify-between gap-4">
       <h3 class="font-serif text-xl group-hover:italic">${p.title}</h3>
@@ -951,17 +954,48 @@ if (matchMedia('(min-width: 768px)').matches) {
     const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
     camera.position.z = 30;
 
-    // outer shell — ink, whisper-quiet; inner core — a hint of amber
-    const outer = new THREE.LineSegments(
-      new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(9, 1)),
-      new THREE.LineBasicMaterial({ color: 0xececea, transparent: true, opacity: 0.13 }));
-    const inner = new THREE.LineSegments(
+    // shell morphs per section; amber core stays constant — the one thing that doesn't change
+    const shellMat = new THREE.LineBasicMaterial({ color: 0xececea, transparent: true, opacity: 0.13 });
+    const GEOS = {
+      ico:   () => new THREE.IcosahedronGeometry(9, 1),
+      knot:  () => new THREE.TorusKnotGeometry(6.2, 1.9, 80, 10),
+      octa:  () => new THREE.OctahedronGeometry(9, 1),
+      dodec: () => new THREE.DodecahedronGeometry(9, 0),
+      ico0:  () => new THREE.IcosahedronGeometry(9.5, 0),
+    };
+    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(GEOS.ico()), shellMat);
+    shell.userData.geo = 'ico';
+    const core = new THREE.LineSegments(
       new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2, 0)),
       new THREE.LineBasicMaterial({ color: 0xffb454, transparent: true, opacity: 0.2 }));
     const group = new THREE.Group();
-    group.add(outer, inner);
-    group.position.x = 6.5;
+    group.add(shell, core);
     scene.add(group);
+
+    const resize = () => {
+      renderer.setSize(innerWidth, innerHeight);
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+    };
+
+    // scroll story — where the object sits, how big, which shape, per section
+    let STOPS = [];
+    const measure = () => {
+      const top = el => el ? el.getBoundingClientRect().top + scrollY : 0;
+      const statsSection = document.querySelector('.stat')?.closest('section');
+      STOPS = [
+        { y: 0,                                          geo: 'ico',   x: 6.5,  s: 1,    o: 0.13 },
+        { y: top(statsSection),                          geo: 'ico',   x: 0,    s: 0.6,  o: 0.10 },
+        { y: top(document.getElementById('projects')),   geo: 'knot',  x: -8.5, s: 0.85, o: 0.11 },
+        { y: top(document.getElementById('experience')), geo: 'octa',  x: 8.5,  s: 0.95, o: 0.12 },
+        { y: top(document.getElementById('about')),      geo: 'dodec', x: -8.5, s: 0.9,  o: 0.12 },
+        { y: top(document.getElementById('contact')),    geo: 'ico0',  x: 0,    s: 1.15, o: 0.16 },
+      ];
+    };
+    addEventListener('resize', () => { resize(); measure(); });
+    resize();
+    measure();
+    setTimeout(measure, 1500); // re-measure once layout fully settles
 
     let tX = 0, tY = 0;
     addEventListener('mousemove', e => {
@@ -969,24 +1003,43 @@ if (matchMedia('(min-width: 768px)').matches) {
       tX = (e.clientY / innerHeight - 0.5) * 0.5;
     }, { passive: true });
 
-    const resize = () => {
-      renderer.setSize(innerWidth, innerHeight);
-      camera.aspect = innerWidth / innerHeight;
-      camera.updateProjectionMatrix();
-    };
-    addEventListener('resize', resize);
-    resize();
+    const lerp = (a, b, t) => a + (b - a) * t;
+    let currentGeo = 'ico', swap = 1;
 
     (function loop() {
       requestAnimationFrame(loop);
-      const fade = Math.max(1 - scrollY / (innerHeight * 0.9), 0);
-      canvas.style.opacity = fade;
-      if (fade <= 0 || document.hidden) return;   // free the GPU past the hero
+      if (document.hidden) return;
+
+      // find which two stops we're between and ease across them
+      const ref = scrollY + innerHeight * 0.45;
+      let i = 0;
+      while (i < STOPS.length - 1 && ref > STOPS[i + 1].y) i++;
+      const a = STOPS[i], b = STOPS[Math.min(i + 1, STOPS.length - 1)];
+      const t = Math.min(Math.max((ref - a.y) / Math.max(b.y - a.y, 1), 0), 1);
+      const e = t * t * (3 - 2 * t); // smoothstep
+
+      group.position.x = lerp(a.x, b.x, e);
+      shellMat.opacity = lerp(a.o, b.o, e);
+
+      // morph: shrink, swap geometry at the smallest point, regrow with a spin burst
+      const targetGeo = (e > 0.5 ? b : a).geo;
+      if (targetGeo !== currentGeo) { currentGeo = targetGeo; swap = 0; }
+      if (swap < 1) {
+        swap = Math.min(swap + 0.03, 1);
+        if (swap >= 0.5 && shell.userData.geo !== currentGeo) {
+          shell.geometry.dispose();
+          shell.geometry = new THREE.WireframeGeometry(GEOS[currentGeo]());
+          shell.userData.geo = currentGeo;
+        }
+      }
+      const sc = swap < 0.5 ? 1 - swap * 2 : (swap - 0.5) * 2;
+      group.scale.setScalar(lerp(a.s, b.s, e) * (0.2 + 0.8 * sc));
+
       group.rotation.y += (tY - group.rotation.y) * 0.05;
       group.rotation.x += (tX - group.rotation.x) * 0.05;
-      outer.rotation.y += 0.0015;
-      outer.rotation.x += 0.0006;
-      inner.rotation.y -= 0.003;
+      shell.rotation.y += 0.0015 + (1 - sc) * 0.06;
+      shell.rotation.x += 0.0006;
+      core.rotation.y -= 0.003;
       renderer.render(scene, camera);
     })();
   };
