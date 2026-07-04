@@ -49,16 +49,16 @@ const FEATURED_PROJECTS = [
   {
     title: "ClinicalMind",
     meta: "Flagship · Live",
-    description: "AI-powered clinical evidence synthesis. A 5-agent LangGraph pipeline searches PubMed and ClinicalTrials.gov, extracts PICO, detects contradictions, and generates structured clinical reports with evidence levels — reducing research that took days to 60 seconds across 35M+ records.",
-    tags: ["Python", "FastAPI", "LangGraph", "React", "PostgreSQL", "Redis", "AWS Lambda"],
+    description: "Real-time LLM platform for clinical workflows. A 7-agent LangGraph pipeline with Claude API (OpenAI fallback) runs RAG over 35M+ PubMed records, with FHIR R4 EHR integration and SMART on FHIR Epic compatibility — compressing clinical research from days to 60 seconds. React 18 TypeScript frontend, FastAPI backend with JWT auth, Prometheus observability, and rate limiting.",
+    tags: ["Python", "FastAPI", "LangGraph", "React", "TypeScript", "FHIR R4", "AWS"],
     github: "https://github.com/anuroopjajoba3/clinical-mind",
     live: "https://clinical-mind-eight.vercel.app",
   },
   {
     title: "PaySplit",
     meta: "Co-founder · LLC, 2026",
-    description: "Fintech platform for payment splitting and expense management. Java Spring Boot and Python FastAPI microservices on AWS ECS with Kafka event streaming and Redis caching. Stripe and Plaid integrations, currently in sandbox ahead of launch.",
-    tags: ["Java", "Spring Boot", "FastAPI", "Kafka", "Redis", "AWS ECS", "Stripe"],
+    description: "Fintech platform for payment splitting and expense management. FastAPI and Spring Boot microservices on AWS ECS with Kafka event streaming and Redis caching, LangGraph multi-agent fraud detection with the Claude API, and an XGBoost risk model at 94% accuracy. Stripe and Plaid integrations, currently in sandbox ahead of launch.",
+    tags: ["Java", "Spring Boot", "FastAPI", "Kafka", "Redis", "XGBoost", "AWS ECS", "Stripe"],
     github: "https://github.com/anuroopjajoba3/paysplit-backend",
     live: "https://www.paysplit.in",
   },
@@ -73,8 +73,8 @@ const FEATURED_PROJECTS = [
   {
     title: "LLM Failure Atlas",
     meta: "AI research",
-    description: "An adversarial benchmark for frontier LLMs — 30 coding tasks designed to expose failure modes, with 7 documented failures across 5 behavioral patterns in Claude Opus. Built to understand where and why frontier models break.",
-    tags: ["Python", "LLM Evals", "Benchmarking", "Claude"],
+    description: "An adversarial benchmark for frontier LLMs — 30 tasks systematically exposing 7 failure modes across Claude and OpenAI models at 95% detection accuracy. A reusable evaluation harness for AI-first application quality assurance.",
+    tags: ["Python", "LLM Evals", "Claude API", "OpenAI API"],
     github: "https://github.com/anuroopjajoba3/llm-failure-atlas",
     live: null,
   },
@@ -106,8 +106,8 @@ const MORE_PROJECTS = [
   },
   {
     title: "Poise",
-    description: "Real-time AI fitness coaching iOS app with on-device pose analysis.",
-    tags: ["Swift", "CoreML", "Vision", "PyTorch"],
+    description: "Real-time AI fitness coaching iOS app — Apple Vision (19 body joints) with on-device CoreML inference at 98% test accuracy. Fully offline; no data leaves the phone.",
+    tags: ["Swift", "SwiftUI", "CoreML", "PyTorch", "MediaPipe"],
     github: "https://github.com/anuroopjajoba3/poise",
     live: null,
   },
@@ -546,9 +546,10 @@ const MORE_PROJECTS = [
         <div>
           <h3 class="text-lg font-medium">Software Engineer &amp; Co-Founder <span class="text-mute font-normal">· PaySplit</span></h3>
           <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
-            Building production Spring Boot and FastAPI microservices on AWS ECS with Kafka event
-            streaming and Redis caching. Shipped LangGraph multi-agent features with the Claude API
-            to automate financial workflows.
+            Building full-stack features end to end — React TypeScript frontend, FastAPI and Spring Boot
+            microservices, PostgreSQL schema design, and Redis caching on AWS ECS at 99.9% uptime.
+            Shipped LangGraph multi-agent fraud detection with the Claude API and an XGBoost model
+            at 94% accuracy on sensitive financial data.
           </p>
         </div>
       </div>
@@ -558,8 +559,10 @@ const MORE_PROJECTS = [
         <div>
           <h3 class="text-lg font-medium">Research Intern <span class="text-mute font-normal">· University of New Hampshire</span></h3>
           <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
-            Built a FastAPI backend with a ChromaDB RAG pipeline for syllabus compliance research —
-            91.6% F1 across 161 real documents. Deployed to AWS via Jenkins CI/CD with 100% pipeline uptime.
+            Built an AI workflow that automates hours of manual document review — ChromaDB RAG pipeline
+            with the Claude API at 91.6% F1 across 161 real documents, deployed to AWS via Jenkins CI/CD
+            with 100% uptime. Worked directly with subject-matter experts to turn ambiguous requirements
+            into a production system.
           </p>
         </div>
       </div>
@@ -569,9 +572,9 @@ const MORE_PROJECTS = [
         <div>
           <h3 class="text-lg font-medium">Software Engineer <span class="text-mute font-normal">· Infosys</span></h3>
           <p class="mt-3 text-[15px] leading-relaxed text-mute max-w-2xl">
-            Developed Java Spring Boot microservices and REST APIs on AWS and Azure — cut query latency
-            40% across 8+ production services processing 500K+ daily records. Built Python and SQL ETL
-            pipelines handling 100K records a day.
+            Built scalable backend services and REST APIs in Python and Java Spring Boot — 500K+ daily
+            records across 8+ production microservices on AWS and Azure. Optimized PostgreSQL to cut
+            query latency 40% and automated CI/CD, cutting deployment failures 30%.
           </p>
         </div>
       </div>
@@ -600,10 +603,11 @@ const MORE_PROJECTS = [
           Kafka event streams to the agent pipelines that sit on top of them.
         </p>
         <p>
-          I hold an MS in Information Technology from the University of New Hampshire <span class="text-ink">(Jan 2026)</span>,
+          I hold an MS in Information Technology from the University of New Hampshire <span class="text-ink">(May 2026)</span>,
           and before that spent a year and a half shipping production microservices at Infosys.
           These days I split my time between PaySplit, the fintech startup I co-founded, and
-          independent AI engineering work like adversarial LLM benchmarks.
+          independent AI engineering work like adversarial LLM benchmarks and healthcare AI with
+          FHIR-integrated clinical systems.
         </p>
         <p class="font-mono text-[12px] pt-2">
           AWS Cloud Practitioner · Neural Networks &amp; Deep Learning (DeepLearning.AI) · Building AI Agents (IBM)
@@ -613,19 +617,27 @@ const MORE_PROJECTS = [
       <div class="reveal from-r grid grid-cols-2 gap-x-8 gap-y-8 text-[14px]">
         <div>
           <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Languages</h4>
-          <p class="leading-relaxed text-ink/80">Java, Python, TypeScript, JavaScript, SQL, Go</p>
+          <p class="leading-relaxed text-ink/80">Python, TypeScript, JavaScript, Java, Go, SQL, Swift</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Frontend &amp; Mobile</h4>
+          <p class="leading-relaxed text-ink/80">React, Next.js, Tailwind CSS, SwiftUI, iOS</p>
         </div>
         <div>
           <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Backend &amp; APIs</h4>
-          <p class="leading-relaxed text-ink/80">Spring Boot, FastAPI, Node.js, REST, GraphQL, Microservices, Kafka</p>
+          <p class="leading-relaxed text-ink/80">FastAPI, Spring Boot, Node.js, REST, Microservices, Kafka</p>
         </div>
         <div>
-          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">AI Engineering</h4>
-          <p class="leading-relaxed text-ink/80">LangGraph, LangChain, Claude API, RAG pipelines, PyTorch, LLM evals</p>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">LLM &amp; AI</h4>
+          <p class="leading-relaxed text-ink/80">LangGraph, LangChain, Claude API, OpenAI API, RAG, ChromaDB, FHIR R4</p>
         </div>
         <div>
-          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Cloud &amp; Data</h4>
-          <p class="leading-relaxed text-ink/80">AWS, Azure, Docker, Kubernetes, PostgreSQL, Redis, MongoDB, CI/CD</p>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">Cloud &amp; DevOps</h4>
+          <p class="leading-relaxed text-ink/80">AWS, Azure, Docker, Kubernetes, PostgreSQL, Redis, GitHub Actions, Jenkins</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-[11px] text-mute uppercase tracking-widest mb-3">ML &amp; On-device</h4>
+          <p class="leading-relaxed text-ink/80">PyTorch, CoreML, MediaPipe, scikit-learn, XGBoost, MLflow</p>
         </div>
       </div>
     </div>
