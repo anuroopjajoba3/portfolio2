@@ -424,6 +424,9 @@ const MORE_PROJECTS = [
 <div id="glow" class="pointer-events-none fixed inset-x-0 top-0 h-[60vh] z-0 will-change-transform"
      style="background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(255,255,255,0.06), transparent 70%);"></div>
 
+<!-- cinematic wireframe object behind the hero (Three.js) -->
+<canvas id="wire3d" class="pointer-events-none fixed inset-0 z-[1] hidden md:block" aria-hidden="true"></canvas>
+
 <!-- ============ NAV ============ -->
 <header id="nav" class="fixed top-0 inset-x-0 z-40 transition-all duration-500">
   <nav class="mx-auto max-w-5xl px-6 lg:px-8 flex items-center justify-between h-16">
@@ -935,6 +938,60 @@ const scrambleIO = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.5 });
 document.querySelectorAll('.scramble').forEach(el => scrambleIO.observe(el));
+
+/* ---------- cinematic wireframe hero (Three.js) ---------- */
+if (matchMedia('(min-width: 768px)').matches) {
+  const threeScript = document.createElement('script');
+  threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  threeScript.onload = () => {
+    const canvas = document.getElementById('wire3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
+    camera.position.z = 30;
+
+    // outer shell — ink, whisper-quiet; inner core — a hint of amber
+    const outer = new THREE.LineSegments(
+      new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(9, 1)),
+      new THREE.LineBasicMaterial({ color: 0xececea, transparent: true, opacity: 0.13 }));
+    const inner = new THREE.LineSegments(
+      new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2, 0)),
+      new THREE.LineBasicMaterial({ color: 0xffb454, transparent: true, opacity: 0.2 }));
+    const group = new THREE.Group();
+    group.add(outer, inner);
+    group.position.x = 6.5;
+    scene.add(group);
+
+    let tX = 0, tY = 0;
+    addEventListener('mousemove', e => {
+      tY = (e.clientX / innerWidth - 0.5) * 0.7;
+      tX = (e.clientY / innerHeight - 0.5) * 0.5;
+    }, { passive: true });
+
+    const resize = () => {
+      renderer.setSize(innerWidth, innerHeight);
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+    };
+    addEventListener('resize', resize);
+    resize();
+
+    (function loop() {
+      requestAnimationFrame(loop);
+      const fade = Math.max(1 - scrollY / (innerHeight * 0.9), 0);
+      canvas.style.opacity = fade;
+      if (fade <= 0 || document.hidden) return;   // free the GPU past the hero
+      group.rotation.y += (tY - group.rotation.y) * 0.05;
+      group.rotation.x += (tX - group.rotation.x) * 0.05;
+      outer.rotation.y += 0.0015;
+      outer.rotation.x += 0.0006;
+      inner.rotation.y -= 0.003;
+      renderer.render(scene, camera);
+    })();
+  };
+  document.head.appendChild(threeScript);
+}
 
 /* ---------- intro landing: click → scene flies to the hero ---------- */
 const intro = document.getElementById('intro');
