@@ -981,8 +981,12 @@ if (matchMedia('(min-width: 768px)').matches) {
     const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
     camera.position.z = 30;
 
-    // shell morphs per section; amber core stays constant — the one thing that doesn't change
-    const shellMat = new THREE.LineBasicMaterial({ color: 0x17161a, transparent: true, opacity: 0.22 });
+    // frosted-glass form lit in violet + blush, with the ink wireframe drawn over it
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0xcfc6ff, transparent: true, opacity: 0.3, roughness: 0.2, metalness: 0,
+      clearcoat: 1, clearcoatRoughness: 0.15, side: THREE.DoubleSide,
+    });
+    const wireMat = new THREE.LineBasicMaterial({ color: 0x17161a, transparent: true, opacity: 0.2 });
     const GEOS = {
       ico:   () => new THREE.IcosahedronGeometry(9, 1),
       knot:  () => new THREE.TorusKnotGeometry(6.2, 1.9, 80, 10),
@@ -990,14 +994,24 @@ if (matchMedia('(min-width: 768px)').matches) {
       dodec: () => new THREE.DodecahedronGeometry(9, 0),
       ico0:  () => new THREE.IcosahedronGeometry(9.5, 0),
     };
-    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(GEOS.ico()), shellMat);
-    shell.userData.geo = 'ico';
+    const baseGeo = GEOS.ico();
+    const glass = new THREE.Mesh(baseGeo, glassMat);
+    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(baseGeo), wireMat);
+    const form = new THREE.Group();
+    form.add(glass, shell);
+    form.userData.geo = 'ico';
     const core = new THREE.LineSegments(
       new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(4.2, 0)),
       new THREE.LineBasicMaterial({ color: 0x5646c8, transparent: true, opacity: 0.38 }));
     const group = new THREE.Group();
-    group.add(shell, core);
+    group.add(form, core);
     scene.add(group);
+
+    // lighting in the site palette — violet from the left, blush from the right
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const keyL = new THREE.DirectionalLight(0xffffff, 0.5); keyL.position.set(5, 8, 10); scene.add(keyL);
+    const violetL = new THREE.PointLight(0x7c6cff, 1.1, 100); violetL.position.set(-14, 6, 12); scene.add(violetL);
+    const blushL = new THREE.PointLight(0xff96be, 0.9, 100); blushL.position.set(14, -4, 10); scene.add(blushL);
 
     const resize = () => {
       renderer.setSize(innerWidth, innerHeight);
@@ -1052,18 +1066,23 @@ if (matchMedia('(min-width: 768px)').matches) {
       const e = t * t * (3 - 2 * t); // smoothstep
 
       group.position.x = lerp(a.x, b.x, e);
-      shellMat.opacity = lerp(a.o, b.o, e);
-      core.material.opacity = shellMat.opacity * 1.7; // amber core fades with the shell
+      const o = lerp(a.o, b.o, e);
+      wireMat.opacity = o * 0.9;
+      glassMat.opacity = Math.min(o * 2.2, 0.5);
+      core.material.opacity = o * 1.7; // violet core fades with the shell
 
       // morph: shrink, swap geometry at the smallest point, regrow with a spin burst
       const targetGeo = (e > 0.5 ? b : a).geo;
       if (targetGeo !== currentGeo) { currentGeo = targetGeo; swap = 0; }
       if (swap < 1) {
         swap = Math.min(swap + 0.03, 1);
-        if (swap >= 0.5 && shell.userData.geo !== currentGeo) {
+        if (swap >= 0.5 && form.userData.geo !== currentGeo) {
+          const g = GEOS[currentGeo]();
+          glass.geometry.dispose();
           shell.geometry.dispose();
-          shell.geometry = new THREE.WireframeGeometry(GEOS[currentGeo]());
-          shell.userData.geo = currentGeo;
+          glass.geometry = g;
+          shell.geometry = new THREE.WireframeGeometry(g);
+          form.userData.geo = currentGeo;
         }
       }
       const sc = swap < 0.5 ? 1 - swap * 2 : (swap - 0.5) * 2;
@@ -1071,8 +1090,8 @@ if (matchMedia('(min-width: 768px)').matches) {
 
       group.rotation.y += (tY - group.rotation.y) * 0.05;
       group.rotation.x += (tX - group.rotation.x) * 0.05;
-      shell.rotation.y += 0.0015 + (1 - sc) * 0.06;
-      shell.rotation.x += 0.0006;
+      form.rotation.y += 0.0015 + (1 - sc) * 0.06;
+      form.rotation.x += 0.0006;
       core.rotation.y -= 0.003;
       renderer.render(scene, camera);
     })();
